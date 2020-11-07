@@ -10,6 +10,9 @@ class Merchant::DiscountController < Merchant::BaseController
     if @discount.save
       redirect_to "/merchant/discount"
       flash[:notice] = "New discount has been created"
+    else
+      redirect_to '/merchant/discount/new'
+      flash[:error] = @discount.errors.full_messages.uniq
     end
   end
 
@@ -20,9 +23,12 @@ class Merchant::DiscountController < Merchant::BaseController
   def update
     discount = Discount.find(discount_id_params[:discount_id])
     discount.assign_attributes(discount_params)
-    if discount.save 
+    if discount.save
       flash[:notice] = 'Discount Updated'
       redirect_to '/merchant/discount'
+    else
+      redirect_to "/merchant/discount/#{discount.id}/edit"
+      flash[:error] = discount.errors.full_messages.uniq
     end
   end
 
