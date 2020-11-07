@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'merchants discount index page', type: :feature do
+RSpec.describe 'merchants discount edit page', type: :feature do
   describe 'As a merchant user' do
-    it 'I can see all the discounts for the merchant and I can see a link
-    to create a new discount, as well as update/delete each discount' do
+    it 'When I click on a link to update a specific discount, I am taken to a
+    form where I can fill in the quantity and percent discount' do
       
       print_shop = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       merchant_user = print_shop.users.create!(name: 'JakeBob',
@@ -17,9 +17,6 @@ RSpec.describe 'merchants discount index page', type: :feature do
         role: 1
       )
       discount_1 = Discount.create(quantity: 10, percent_discount: 2)
-      discount_2 = Discount.create(quantity: 20, percent_discount: 5)
-      discount_3 = Discount.create(quantity: 30, percent_discount: 10)
-
 
       visit '/login'
       fill_in :email, with: 'Bob1234@hotmail.com'
@@ -28,12 +25,12 @@ RSpec.describe 'merchants discount index page', type: :feature do
 
       visit "/merchants/#{print_shop.id}/discount"
 
-      expect(page).to have_content("#{discount_1.id}: Quantity: 10 Percent Discount: 2")
-      expect(page).to have_content("#{discount_2.id}: Quantity: 20 Percent Discount: 5")
-      expect(page).to have_content("#{discount_3.id}: Quantity: 30 Percent Discount: 10")
-      expect(page).to have_link('Create Discount')
-      expect(page).to have_link('Update Discount')
-      expect(page).to have_link('Delete Discount')
+      click_link 'Delete Discount'
+
+      expect(current_path).to eq("/merchants/#{print_shop.id}/discount")
+
+      expect(page).to have_content('Discount Deleted')
+      expect(page).not_to have_content("#{discount_1.id}: Quantity: 5 Percent Discount: 2.5")
     end
   end
 end

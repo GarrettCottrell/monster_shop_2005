@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     get '/:merchants_id/discount/new', to: 'discount#new'
     get '/:merchants_id/discount', to: 'discount#index'
     post '/:merchants_id/discount', to: 'discount#create'
+    get '/:merchants_id/discount/:discount_id/edit', to: 'discount#edit'
+    patch '/:merchant_id/discount', to: 'discount#update'
+    delete '/:merchant_id/discount/:discount_id', to: 'discount#destroy'
   end
 
   resources :items, only: %i[new create] do

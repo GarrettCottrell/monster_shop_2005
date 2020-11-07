@@ -1,0 +1,11 @@
+<%= form_with url: "/merchants/#{@merchant.id}/discount", model: @discount, local: true do |f| %>
+  <%= f.label :quantity %>
+  <%= f.text_field :quantity %>
+  
+  <%= f.label :percent_discount %>
+  <%= f.text_field :percent_discount %>
+
+  <%= f.hidden_field :discount_id , :value => @discount.id %>
+
+  <%= f.submit %>
+<% end %>
