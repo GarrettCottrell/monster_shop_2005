@@ -27,7 +27,6 @@ RSpec.describe 'merchants discount index page', type: :feature do
       click_button 'Login'
 
       visit "/merchant/discount"
-
       expect(page).to have_content("#{discount_1.id}: Quantity: 10 Percent Discount: 2")
       expect(page).to have_content("#{discount_2.id}: Quantity: 20 Percent Discount: 5")
       expect(page).to have_content("#{discount_3.id}: Quantity: 30 Percent Discount: 10")
