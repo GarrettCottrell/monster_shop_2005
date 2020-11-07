@@ -5,5 +5,7 @@
   <%= f.label :percent_discount %>
   <%= f.text_field :percent_discount %>
 
+  <%= f.hidden_field :merchant_id , :value => current_user.merchant.id %>
+
   <%= f.submit %>
 <% end %>

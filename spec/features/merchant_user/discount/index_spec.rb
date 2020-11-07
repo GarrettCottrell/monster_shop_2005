@@ -16,9 +16,9 @@ RSpec.describe 'merchants discount index page', type: :feature do
         password_confirmation: 'heftybags',
         role: 1
       )
-      discount_1 = Discount.create(quantity: 10, percent_discount: 2)
-      discount_2 = Discount.create(quantity: 20, percent_discount: 5)
-      discount_3 = Discount.create(quantity: 30, percent_discount: 10)
+      discount_1 = print_shop.discounts.create(quantity: 10, percent_discount: 2)
+      discount_2 = print_shop.discounts.create(quantity: 20, percent_discount: 5)
+      discount_3 = print_shop.discounts.create(quantity: 30, percent_discount: 10)
 
 
       visit '/login'

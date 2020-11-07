@@ -16,7 +16,7 @@ RSpec.describe 'merchants discount edit page', type: :feature do
         password_confirmation: 'heftybags',
         role: 1
       )
-      discount_1 = Discount.create(quantity: 10, percent_discount: 2)
+      discount_1 = print_shop.discounts.create(quantity: 10, percent_discount: 2)
 
       visit '/login'
       fill_in :email, with: 'Bob1234@hotmail.com'
