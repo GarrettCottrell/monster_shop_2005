@@ -23,11 +23,11 @@ RSpec.describe 'merchants discount edit page', type: :feature do
       fill_in :password, with: 'heftybags'
       click_button 'Login'
 
-      visit "/merchants/#{print_shop.id}/discount"
+      visit '/merchant/discount'
 
       click_link 'Delete Discount'
 
-      expect(current_path).to eq("/merchants/#{print_shop.id}/discount")
+      expect(current_path).to eq('/merchant/discount')
 
       expect(page).to have_content('Discount Deleted')
       expect(page).not_to have_content("#{discount_1.id}: Quantity: 5 Percent Discount: 2.5")

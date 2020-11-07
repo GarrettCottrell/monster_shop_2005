@@ -1,24 +1,20 @@
-class Merchants::DiscountController < ApplicationController
+class Merchant::DiscountController < Merchant::BaseController
   def new
-    @merchant = Merchant.find(params[:merchants_id])
     @discount = Discount.new
   end
 
-  def index
-    @merchant = Merchant.find(params[:merchants_id])
-  end
+  def index; end
 
   def create
     @discount = Discount.new(discount_params)
     if @discount.save
-      redirect_to "/merchants/#{params[:merchants_id]}/discount"
+      redirect_to "/merchant/discount"
       flash[:notice] = "New discount has been created"
     end
   end
 
   def edit
-    @merchant = Merchant.find(params[:merchants_id])
-    @discount = Discount.find(params[:discount_id])
+    @discount = Discount.find(params[:id])
   end
 
   def update
@@ -26,14 +22,14 @@ class Merchants::DiscountController < ApplicationController
     discount.assign_attributes(discount_params)
     if discount.save 
       flash[:notice] = 'Discount Updated'
-      redirect_to "/merchants/#{params[:merchant_id]}/discount"
+      redirect_to '/merchant/discount'
     end
   end
 
   def destroy
-    discount = Discount.find(params[:discount_id])
+    discount = Discount.find(params[:id])
     discount.destroy
-    redirect_to "/merchants/#{params[:merchant_id]}/discount"
+    redirect_to '/merchant/discount'
     flash[:notice] = 'Discount Deleted'
   end
 

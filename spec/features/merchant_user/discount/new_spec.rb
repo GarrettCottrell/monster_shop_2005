@@ -22,16 +22,16 @@ RSpec.describe 'merchants discount new page', type: :feature do
       fill_in :password, with: 'heftybags'
       click_button 'Login'
 
-      visit "/merchants/#{print_shop.id}/discount"
-      click_link "Create Discount"
-      expect(current_path).to eq("/merchants/#{print_shop.id}/discount/new")
+      visit '/merchant/discount'
+      click_link 'Create Discount'
+      expect(current_path).to eq('/merchant/discount/new')
       fill_in :discount_quantity, with: 20
       fill_in :discount_percent_discount, with: 5
 
       click_button 'Create Discount'
 
-      expect(current_path).to eq("/merchants/#{print_shop.id}/discount")
-      expect(page).to have_content("New discount has been created")
+      expect(current_path).to eq("/merchant/discount")
+      expect(page).to have_content('New discount has been created')
     end
   end
 end

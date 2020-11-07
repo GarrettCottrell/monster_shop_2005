@@ -11,13 +11,13 @@ Rails.application.routes.draw do
     resources :items
   end
 
-  namespace :merchants do
-    get '/:merchants_id/discount/new', to: 'discount#new'
-    get '/:merchants_id/discount', to: 'discount#index'
-    post '/:merchants_id/discount', to: 'discount#create'
-    get '/:merchants_id/discount/:discount_id/edit', to: 'discount#edit'
-    patch '/:merchant_id/discount', to: 'discount#update'
-    delete '/:merchant_id/discount/:discount_id', to: 'discount#destroy'
+  namespace :merchant do
+    get '/discount', to: 'discount#index'
+    get '/discount/new', to: 'discount#new'
+    post '/discount', to: 'discount#create'
+    get '/discount/:id/edit', to: 'discount#edit'
+    patch '/discount', to: 'discount#update'
+    delete '/discount/:id', to: 'discount#destroy'
   end
 
   resources :items, only: %i[new create] do

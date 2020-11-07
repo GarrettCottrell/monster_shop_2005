@@ -26,7 +26,7 @@ RSpec.describe 'merchants discount index page', type: :feature do
       fill_in :password, with: 'heftybags'
       click_button 'Login'
 
-      visit "/merchants/#{print_shop.id}/discount"
+      visit "/merchant/discount"
 
       expect(page).to have_content("#{discount_1.id}: Quantity: 10 Percent Discount: 2")
       expect(page).to have_content("#{discount_2.id}: Quantity: 20 Percent Discount: 5")

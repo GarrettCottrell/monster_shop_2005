@@ -325,7 +325,7 @@ describe "As a merchant employee" do
 
       visit "/merchant"
       click_link "Manage Discounts"
-      expect(current_path).to eq("/merchants/#{merchant_user.merchant_id}/discount")
+      expect(current_path).to eq("/merchant/discount")
     end
   end
 end
