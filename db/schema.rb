@@ -10,10 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_04_234258) do
+ActiveRecord::Schema.define(version: 2020_11_07_033025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "discounts", force: :cascade do |t|
+    t.integer "quantity"
+    t.float "percent_discount"
+  end
 
   create_table "item_orders", force: :cascade do |t|
     t.bigint "order_id"
@@ -33,7 +38,7 @@ ActiveRecord::Schema.define(version: 2020_11_04_234258) do
     t.string "name"
     t.string "description"
     t.integer "price"
-    t.string "image", default: "https://www.monsterchildren.com/wp-content/uploads/2020/02/nic-cage-monster-children-1068x571.jpg"
+    t.string "image"
     t.boolean "active?", default: true
     t.integer "inventory"
     t.bigint "merchant_id"

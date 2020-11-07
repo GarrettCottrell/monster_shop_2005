@@ -1,10 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'merchants discount new page', type: :feature do
+RSpec.describe 'merchants discount index page', type: :feature do
   describe 'As a merchant user' do
-    it 'I can create a new discount and upon successful creation, I am 
-    redirected to the discounts index page with a flash message that the 
-    discount was successfully created' do
+    it 'I can see all the discounts for the merchant and I can see a link
+    to create/update/delete each discount' do
       print_shop = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       merchant_user = print_shop.users.create!(name: 'JakeBob',
         address: '124 Main St',
@@ -31,7 +30,12 @@ RSpec.describe 'merchants discount new page', type: :feature do
       click_button 'Create Discount'
 
       expect(current_path).to eq("/merchants/#{print_shop.id}/discount")
-      expect(page).to have_content("New discount has been created")
+      save_and_open_page
+      expect(page).to have_content('New discount has been created')
+      expect(page).to have_content("#{Discount.last.id}: Quantity: 20 Percent Discount: 5")
+      expect(page).to have_link("Create Discount")
+      expect(page).to have_link("Update Discount")
+      expect(page).to have_link("Delete Discount")
     end
   end
 end

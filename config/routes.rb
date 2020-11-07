@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   namespace :merchants do
     get '/:merchants_id/discount/new', to: 'discount#new'
     get '/:merchants_id/discount', to: 'discount#index'
+    post '/:merchants_id/discount', to: 'discount#create'
   end
 
   resources :items, only: %i[new create] do

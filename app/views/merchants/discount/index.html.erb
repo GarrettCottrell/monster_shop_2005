@@ -1,1 +1,6 @@
-<%= link_to "Create Discount", "/merchants/#{@merchant.id}/discount/new" %>
+<p><%= link_to "Create Discount", "/merchants/#{@merchant.id}/discount/new" %></p>
+<% Discount.all.each do |discount| %>
+Discount ID #<%= discount.id %>: Quantity: <%= discount.quantity %> Percent Discount: <%= discount.percent_discount %>
+<%= link_to "Update Discount", "/merchants/#{@merchant.id}/discount/#{discount.id}/edit" %>
+<%= link_to "Delete Discount", "/merchants/#{@merchant.id}/discount/#{discount.id}", method: "delete" %>
+<% end %>
