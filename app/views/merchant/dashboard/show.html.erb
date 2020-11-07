@@ -2,7 +2,7 @@
   <h1><%= @merchant.name %></h1>
   <h4><%= @merchant.full_address %></h4>
   <%= link_to "My Items", "/merchant/items?merchant_id=#{@merchant.id}" %>
-  <%= link_to "Manage Discounts", "/merchants/#{@merchant.id}/discount/new" %>
+  <%= link_to "Manage Discounts", "/merchants/#{@merchant.id}/discount" %>
 
   <h3>Merchant Orders To Fulfill:</h3>
   <% @merchant.pending_orders.each do |order| %>

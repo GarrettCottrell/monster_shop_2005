@@ -284,8 +284,8 @@ describe "As a merchant employee" do
       expect(chain.inventory).to eq(3)
     end
 
-    it "When I click on the link to Manage Discounts, I am taken to 
-    /merchants/:id/discount/new" do
+    it "When I click on the link to Manage Discounts, I am taken to the merchants
+    discounts index page /merchants/:id/discount" do
 
       print_shop = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
@@ -325,7 +325,7 @@ describe "As a merchant employee" do
 
       visit "/merchant"
       click_link "Manage Discounts"
-      expect(current_path).to eq("/merchants/#{merchant_user.merchant_id}/discount/new")
+      expect(current_path).to eq("/merchants/#{merchant_user.merchant_id}/discount")
     end
   end
 end
