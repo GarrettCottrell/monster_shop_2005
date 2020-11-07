@@ -44,4 +44,8 @@ class Merchant < ApplicationRecord
     update(enabled?: true)
     items.update(active?: true)
   end
+
+  def find_discount_quantity(quantity)
+    
+  end
 end
