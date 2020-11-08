@@ -50,6 +50,6 @@ class Merchant < ApplicationRecord
   end
 
   def find_discount_amount(quantity)
-    discounts.where('quantity <= ?', quantity).order('percent_discount DESC').limit(1)[0].percent_discount
+    discounts.where('quantity <= ?', quantity).order('percent_discount DESC').limit(1)[0]
   end
 end
