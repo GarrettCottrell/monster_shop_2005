@@ -1,29 +1,49 @@
 <% @order.items_by_merchant(current_user.merchant_id).each do |item| %>
   <% if item.order_quantity(@order.id) <= item.inventory && item.status(@order.id) == "Pending" %>
     <%= link_to "#{item.name}", "/merchant/items/#{item.id}" %>
-    <%= link_to "Fulfill #{item.name}", "/merchant/itemorders/#{item.order_item(@order.id)}?order_id=#{@order.id}", method: "patch" %>
+    <%= link_to "Fulfill #{item.name}", "/merchant/itemorders/#{item.order_item_id(@order.id)}?order_id=#{@order.id}", method: "patch" %>
     <img src = "<%= item.image  %>">
-    <%= item.price  %>
+    <% if item.merchant.find_discount_quantity(item.order_item(@order.id).quantity) != [] %>
+    <p> Discounted Unit Price: <%= item.discounted_unit_price(item.order_item(@order.id).quantity) %></p>
+    <p> Total Discounted Price: <%=item.discounted_price(item.order_item(@order.id).quantity, @order.id)%></p>
+    <% else %>
+       <%= item.price  %>
+   <% end %>
     <%= item.order_quantity(@order.id) %>
     <%= item.status(@order.id) %>
 
   <% elsif item.status(@order.id) == "Fulfilled" %>
    <%= item.name %>
     <img src = "<%= item.image  %>">
-    <%= item.price  %>
+    <% if item.merchant.find_discount_quantity(item.order_item(@order.id).quantity) != [] %>
+    <p> Discounted Unit Price: <%= item.discounted_unit_price(item.order_item(@order.id).quantity) %></p>
+    <p> Total Discounted Price: <%=item.discounted_price(item.order_item(@order.id).quantity, @order.id)%></p>
+    <% else %>
+       <%= item.price  %>
+   <% end %>
     <%= item.order_quantity(@order.id) %>
     <h5> <%= "#{item.name} has been fulfilled" %> </h5>
 
  <% elsif item.order_quantity(@order.id) >= item.inventory && item.status(@order.id) == "Pending" %>
     <%= item.name %>
     <img src = "<%= item.image  %>">
-    <%= item.price  %>
+    <% if item.merchant.find_discount_quantity(item.order_item(@order.id).quantity) != [] %>
+    <p> Discounted Unit Price: <%= item.discounted_unit_price(item.order_item(@order.id).quantity) %></p>
+    <p> Total Discounted Price: <%=item.discounted_price(item.order_item(@order.id).quantity, @order.id)%></p>
+    <% else %>
+       <%= item.price  %>
+   <% end %>
     <%= item.order_quantity(@order.id) %>
     <h5> <%= item.name %> Can't fullfill - Not enough items in inventory </h5>
 
     <% else %>
     <%= item.name %>
-    <%= item.price  %>
+    <% if item.merchant.find_discount_quantity(item.order_item(@order.id).quantity) != [] %>
+    <p> Discounted Unit Price: <%= item.discounted_unit_price(item.order_item(@order.id).quantity) %></p>
+    <p> Total Discounted Price: <%=item.discounted_price(item.order_item(@order.id).quantity, @order.id)%></p>
+    <% else %>
+       <%= item.price  %>
+   <% end %>
     <%= item.order_quantity(@order.id) %>
   <% end %>
 <% end %>

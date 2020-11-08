@@ -8,6 +8,7 @@
     <th>Sold By</th>
     <th>Price</th>
     <th>Quantity</th>
+    <th>Discount</th>
     <th>Subtotal</th>
   </tr>
   <% @items.each do |item,quantity| %>
@@ -37,8 +38,17 @@
         </center>
         </td>
       <td>
-        <p><%=number_to_currency(cart.subtotal(item))%></p>
+      <% if item.merchant.find_discount_quantity(quantity) != [] %>
+        <%= item.merchant.find_discount_amount(quantity).percent_discount %>%
+        <% end %>
     </td>
+      <td>
+        <p align = "center">
+        <% if item.merchant.find_discount_quantity(quantity) != [] %>
+        <p><%=number_to_currency(cart.subtotal_with_discount(item, quantity))%></p>
+        <% else %>
+        <p><%=number_to_currency(cart.subtotal(item))%></p>
+        <% end %>
     </tr>
   <% end %>
 </table>

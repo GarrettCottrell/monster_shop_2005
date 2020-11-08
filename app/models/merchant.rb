@@ -5,6 +5,7 @@ class Merchant < ApplicationRecord
   has_many :item_orders, through: :items
   has_many :users, -> { where role: :merchant }
   has_many :orders, through: :items
+  has_many :discounts
 
   validates_presence_of :name,
                         :address,
@@ -42,5 +43,13 @@ class Merchant < ApplicationRecord
   def enable_merchant
     update(enabled?: true)
     items.update(active?: true)
+  end
+
+  def find_discount_quantity(quantity)
+    discounts.where('quantity <= ?', quantity).order('percent_discount DESC').limit(1)
+  end
+
+  def find_discount_amount(quantity)
+    discounts.where('quantity <= ?', quantity).order('percent_discount DESC').limit(1)[0]
   end
 end
