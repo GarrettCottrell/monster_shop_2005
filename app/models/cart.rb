@@ -32,7 +32,7 @@ class Cart
   end
 
   def subtotal_with_discount(item, quantity)
-    (item.price * @contents[item.id.to_s]) - ((item.price * @contents[item.id.to_s])*(item.merchant.find_discount_amount(quantity)/100))
+    (item.price * @contents[item.id.to_s]) - ((item.price * @contents[item.id.to_s])*(item.item_discount(quantity)))
   end
 
   def total

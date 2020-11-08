@@ -11,7 +11,6 @@
     <h3>Order Quantity:</h3>
     <p><%= order.item_qty(@merchant.id) %></p>
     <h3>Total Value of Order:</h3>
-    <% require 'pry'; binding.pry %>
     <p><%= order.total_value(@merchant.id) %></p>
   <% end %>
 </body>

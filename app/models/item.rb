@@ -44,8 +44,28 @@ class Item <ApplicationRecord
   def status(order_id)
     self.item_orders.find_by('order_id =?', order_id).status
   end
-  
-  def order_item(order_id)
+
+  def order_item_id(order_id)
     self.item_orders.find_by('order_id =?', order_id).id
+  end
+
+  def order_item(order_id)
+    self.item_orders.find_by('order_id =?', order_id)
+  end
+
+  def total_cost(order_id)
+    order_item(order_id).quantity * price
+  end
+
+  def item_discount(quantity)
+    merchant.find_discount_amount(quantity) / 100
+  end
+
+  def discounted_price(quantity, order_id)
+    total_cost(order_id) - (total_cost(order_id) * item_discount(quantity))
+  end
+
+  def discounted_unit_price(quantity)
+    price - (price * item_discount(quantity))
   end
 end

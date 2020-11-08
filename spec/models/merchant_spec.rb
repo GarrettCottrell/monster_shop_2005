@@ -129,7 +129,7 @@ describe Merchant, type: :model do
     expect(expected).to eq(true)
     end
     
-    it '#pending_orders' do
+    it '#find_discount_quantity' do
       bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80_203)
       user = User.create!(
         name: 'JakeBob',
