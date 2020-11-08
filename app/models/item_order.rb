@@ -17,7 +17,7 @@ class ItemOrder <ApplicationRecord
     merchant.find_discount_amount(quantity).percent_discount / 100
   end
 
-  def discounted_subtotal
-    subtotal - (subtotal * discount)
+  def discounted_subtotal(quantity)
+    subtotal - (subtotal * discount(quantity))
   end
 end
