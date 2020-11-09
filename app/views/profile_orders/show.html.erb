@@ -39,7 +39,7 @@
           <td><p><%= item_order.item.description %></p></td>
           <td><p><%= link_to item_order.item.merchant.name, "/merchants/#{item_order.item.merchant.id}"%></p></td>
            <% if item_order.item.merchant.find_discount_quantity(item_order.item.order_item(@order.id).quantity) != [] %>
-            <td><p><%= number_to_currency(item_order.item.discounted_unit_price(item.order_item(@order.id).quantity)) %></p></td>
+            <td><p><%= number_to_currency(item_order.item.discounted_unit_price(item_order.item.order_item(@order.id).quantity)) %></p></td>
             <td><p><%= number_to_currency(item_order.discounted_subtotal(item_order.quantity))%></p></td>
           <% else %>
             <td><p><%= number_to_currency(item_order.price)%></p></td>
