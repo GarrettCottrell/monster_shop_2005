@@ -16,7 +16,10 @@ RSpec.describe 'merchants discount edit page', type: :feature do
         password_confirmation: 'heftybags',
         role: 1
       )
-      discount_1 = print_shop.discounts.create(quantity: 10, percent_discount: 2)
+      discount_1 = print_shop.discounts.create(quantity: 10, percent_discount: 5)
+      discount_2 = print_shop.discounts.create(quantity: 15, percent_discount: 10)
+      discount_3 = print_shop.discounts.create(quantity: 20, percent_discount: 15)
+      discount_4 = print_shop.discounts.create(quantity: 25, percent_discount: 20)
 
       visit '/login'
       fill_in :email, with: 'Bob1234@hotmail.com'
@@ -25,12 +28,27 @@ RSpec.describe 'merchants discount edit page', type: :feature do
 
       visit '/merchant/discount'
 
-      click_link 'Delete Discount'
-
       expect(current_path).to eq('/merchant/discount')
-
+      expect(page).to have_content("Discount ID #: #{discount_1.id} Quantity: #{discount_1.quantity} Percent Discount: #{discount_1.percent_discount}")
+      expect(page).to have_link("Update Discount - ID: #{discount_1.id}")
+      click_link "Delete Discount - ID: #{discount_1.id}"
       expect(page).to have_content('Discount Deleted')
       expect(page).not_to have_content("#{discount_1.id}: Quantity: 5 Percent Discount: 2.5")
+      expect(page).to have_content("Discount ID #: #{discount_2.id} Quantity: #{discount_2.quantity} Percent Discount: #{discount_2.percent_discount}")
+      expect(page).to have_link("Update Discount - ID: #{discount_2.id}")
+      click_link "Delete Discount - ID: #{discount_2.id}"
+      expect(page).to have_content('Discount Deleted')
+      expect(page).not_to have_content("#{discount_2.id}: Quantity: 5 Percent Discount: 2.5")
+      expect(page).to have_content("Discount ID #: #{discount_3.id} Quantity: #{discount_3.quantity} Percent Discount: #{discount_3.percent_discount}")
+      expect(page).to have_link("Update Discount - ID: #{discount_3.id}")
+      click_link "Delete Discount - ID: #{discount_3.id}"
+      expect(page).to have_content('Discount Deleted')
+      expect(page).not_to have_content("#{discount_3.id}: Quantity: 5 Percent Discount: 2.5")
+      expect(page).to have_content("Discount ID #: #{discount_4.id} Quantity: #{discount_4.quantity} Percent Discount: #{discount_4.percent_discount}")
+      expect(page).to have_link("Update Discount - ID: #{discount_4.id}")
+      click_link "Delete Discount - ID: #{discount_4.id}"
+      expect(page).to have_content('Discount Deleted')
+      expect(page).not_to have_content("#{discount_4.id}: Quantity: 5 Percent Discount: 2.5")
     end
   end
 end

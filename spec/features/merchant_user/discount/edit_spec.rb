@@ -4,7 +4,6 @@ RSpec.describe 'merchants discount edit page', type: :feature do
   describe 'As a merchant user' do
     it 'When I click on a link to update a specific discount, I am taken to a
     form where I can fill in the quantity and percent discount' do
-
       print_shop = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       merchant_user = print_shop.users.create!(name: 'JakeBob',
         address: '124 Main St',
@@ -33,14 +32,14 @@ RSpec.describe 'merchants discount edit page', type: :feature do
       fill_in :discount_percent_discount, with: 2.5
 
       click_button 'Update Discount'
+
       expect(current_path).to eq('/merchant/discount')
       expect(page).to have_content('Discount Updated')
-      expect(page).to have_content("#{discount_1.id}: Quantity: 5 Percent Discount: 2.5")
+      expect(page).to have_content("Discount ID #: #{discount_1.id} Quantity: 5 Percent Discount: 2.5")
     end
 
     it 'If I leave quantity blank while updating my discount, I am returned
     to the edit form with an error flash message' do
-
       print_shop = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       merchant_user = print_shop.users.create!(name: 'JakeBob',
         address: '124 Main St',
@@ -76,7 +75,6 @@ RSpec.describe 'merchants discount edit page', type: :feature do
 
     it 'If I leave discount_percent blank while updating my discount, I am returned
     to the edit form with an error flash message' do
-
       print_shop = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       merchant_user = print_shop.users.create!(name: 'JakeBob',
         address: '124 Main St',
