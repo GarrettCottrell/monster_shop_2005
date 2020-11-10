@@ -306,15 +306,21 @@ RSpec.describe('Order Creation') do
       visit "/profile/orders/#{order_1.id}"
 
       within "#item-#{@paper.id}" do
+
+      save_and_open_page
           expect(page).to have_content(order_item_1.item.discounted_unit_price(order_item_1.item.order_item(order_1.id).quantity))
           expect(page).to have_content(18)
+          expect(page).to have_content(order_item_1.discounted_subtotal(order_item_1.quantity))
+          expect(page).to have_content(90)
         end
       within "#item-#{@tire.id}" do
           expect(page).to have_content(order_item_2.item.discounted_unit_price(order_item_2.item.order_item(order_1.id).quantity))
           expect(page).to have_content(93.73)
+          expect(page).to have_content(order_item_2.discounted_subtotal(order_item_2.quantity))
+          expect(page).to have_content(374.92)
         end
       within "#item-#{@pencil.id}" do
-          expect(page).to have_content(300)
+          expect(page).to have_content(300).twice
         end
       end
     end
