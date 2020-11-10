@@ -38,13 +38,13 @@
         </center>
         </td>
       <td>
-      <% if item.merchant.find_discount_quantity(quantity) != [] %>
-        <%= item.merchant.find_discount_amount(quantity).percent_discount %>%
+      <% if item.merchant.find_discount(quantity) != nil %>
+        <%= item.merchant.find_discount_amount(quantity) %>%
         <% end %>
     </td>
       <td>
         <p align = "center">
-        <% if item.merchant.find_discount_quantity(quantity) != [] %>
+        <% if item.merchant.find_discount(quantity) != nil %>
         <p><%=number_to_currency(cart.subtotal_with_discount(item, quantity))%></p>
         <% else %>
         <p><%=number_to_currency(cart.subtotal(item))%></p>

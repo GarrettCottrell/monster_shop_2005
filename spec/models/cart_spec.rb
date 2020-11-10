@@ -55,5 +55,25 @@ RSpec.describe Cart do
       expect(@cart.subtotal(@ogre)).to eq(20)
       expect(@cart.subtotal(@giant)).to eq(100)
     end
+
+    it '#subtotal_with_discount' do
+      bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80_203)
+      @hippo = bike_shop.items.create(name: 'Hippo', description: "It'll never break!", price: 50, image: 'https://www.rei.com/media/b61d1379-ec0e-4760-9247-57ef971af0ad?size=784x588', inventory: 5)
+      @giant = bike_shop.items.create(name: 'Giant', description: "It'll never break!", price: 50, image: 'https://www.rei.com/media/b61d1379-ec0e-4760-9247-57ef971af0ad?size=784x588', inventory: 5)
+      @ogre = bike_shop.items.create(name: 'Ogre', description: "It'll never break!", price: 50, image: 'https://www.rei.com/media/b61d1379-ec0e-4760-9247-57ef971af0ad?size=784x588', inventory: 5)
+      discount_1 = bike_shop.discounts.create(quantity: 3, percent_discount: 2)
+      discount_2 = bike_shop.discounts.create(quantity: 2, percent_discount: 5)
+      @cart.add_item(@hippo.id.to_s)
+      @cart.add_item(@hippo.id.to_s)
+      @cart.add_item(@hippo.id.to_s)
+      @cart.add_item(@giant.id.to_s)
+      @cart.add_item(@giant.id.to_s)
+      @cart.add_item(@giant.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      expect(@cart.subtotal_with_discount(@hippo, @cart.contents[@hippo.id.to_s])).to eq(142.5)
+      expect(@cart.subtotal_with_discount(@giant, @cart.contents[@giant.id.to_s])).to eq(142.5)
+      expect(@cart.subtotal_with_discount(@ogre, @cart.contents[@ogre.id.to_s])).to eq(95)
+    end
   end
 end

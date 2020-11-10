@@ -45,11 +45,11 @@ class Merchant < ApplicationRecord
     items.update(active?: true)
   end
 
-  def find_discount_quantity(quantity)
-    discounts.where('quantity <= ?', quantity).order('percent_discount DESC').limit(1)
+  def find_discount(quantity)
+    discounts.where('quantity <= ?', quantity).order('percent_discount DESC').limit(1)[0]
   end
 
   def find_discount_amount(quantity)
-    discounts.where('quantity <= ?', quantity).order('percent_discount DESC').limit(1)[0]
+    find_discount(quantity).percent_discount
   end
 end

@@ -3,7 +3,7 @@
     <%= link_to "#{item.name}", "/merchant/items/#{item.id}" %>
     <%= link_to "Fulfill #{item.name}", "/merchant/itemorders/#{item.order_item_id(@order.id)}?order_id=#{@order.id}", method: "patch" %>
     <img src = "<%= item.image  %>">
-    <% if item.merchant.find_discount_quantity(item.order_item(@order.id).quantity) != [] %>
+    <% if item.merchant.find_discount(item.order_item(@order.id).quantity) != nil %>
     <p> Discounted Unit Price: <%= item.discounted_unit_price(item.order_item(@order.id).quantity) %></p>
     <p> Total Discounted Price: <%=item.discounted_price(item.order_item(@order.id).quantity, @order.id)%></p>
     <% else %>
@@ -15,7 +15,7 @@
   <% elsif item.status(@order.id) == "Fulfilled" %>
    <%= item.name %>
     <img src = "<%= item.image  %>">
-    <% if item.merchant.find_discount_quantity(item.order_item(@order.id).quantity) != [] %>
+    <% if item.merchant.find_discount(item.order_item(@order.id).quantity) != nil %>
     <p> Discounted Unit Price: <%= item.discounted_unit_price(item.order_item(@order.id).quantity) %></p>
     <p> Total Discounted Price: <%=item.discounted_price(item.order_item(@order.id).quantity, @order.id)%></p>
     <% else %>
@@ -27,7 +27,7 @@
  <% elsif item.order_quantity(@order.id) >= item.inventory && item.status(@order.id) == "Pending" %>
     <%= item.name %>
     <img src = "<%= item.image  %>">
-    <% if item.merchant.find_discount_quantity(item.order_item(@order.id).quantity) != [] %>
+    <% if item.merchant.find_discount(item.order_item(@order.id).quantity) != nil %>
     <p> Discounted Unit Price: <%= item.discounted_unit_price(item.order_item(@order.id).quantity) %></p>
     <p> Total Discounted Price: <%=item.discounted_price(item.order_item(@order.id).quantity, @order.id)%></p>
     <% else %>
