@@ -270,6 +270,59 @@ RSpec.describe('Order Creation') do
 
         expect(Item.find(tire.id).inventory).to eq(13)
       end
+
+      it 'Final discounted unit prices appear on the orders show page. If no discount
+      is present, the original price should be reflected instead.' do
+
+      print_shop = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      regular_user = print_shop.users.create!(name: 'JakeBob',
+        address: '124 Main St',
+        city: 'Denver',
+        state: 'Colorado',
+        zip: '80202',
+        email: 'Bob1234@hotmail.com',
+        password: 'heftybags',
+        password_confirmation: 'heftybags',
+        role: 0
+      )
+      discount_1 = print_shop.discounts.create(quantity: 5, percent_discount: 10)
+      discount_2 = print_shop.discounts.create(quantity: 4, percent_discount: 9)
+      discount_3 = print_shop.discounts.create(quantity: 3, percent_discount: 8)
+      discount_4 = print_shop.discounts.create(quantity: 2, percent_discount: 7)
+      @paper = print_shop.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 25)
+      @pencil = print_shop.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 300, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
+      @tire = print_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 103, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+      order_1 = Order.create!(name: 'JakeBob', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80_218, user_id: regular_user.id, status: 'Pending')
+      order_item_1 = order_1.item_orders.create!(item: @paper, price: @paper.price, quantity: 5, status: 'Pending', merchant_id: print_shop.id)
+      order_item_2 =  order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 4, status: 'Pending', merchant_id: print_shop.id)
+      order_item_3 =  order_1.item_orders.create!(item: @pencil, price: @pencil.price, quantity: 1, status: 'Fulfilled', merchant_id: print_shop.id)
+
+      visit '/login'
+      fill_in :email, with: 'Bob1234@hotmail.com'
+      fill_in :password, with: 'heftybags'
+      click_button 'Login'
+
+      visit "/profile/orders/#{order_1.id}"
+
+      within "#item-#{@paper.id}" do
+
+      save_and_open_page
+          expect(page).to have_content(order_item_1.item.discounted_unit_price(order_item_1.item.order_item(order_1.id).quantity))
+          expect(page).to have_content(18)
+          expect(page).to have_content(order_item_1.discounted_subtotal(order_item_1.quantity))
+          expect(page).to have_content(90)
+        end
+      within "#item-#{@tire.id}" do
+          expect(page).to have_content(order_item_2.item.discounted_unit_price(order_item_2.item.order_item(order_1.id).quantity))
+          expect(page).to have_content(93.73)
+          expect(page).to have_content(order_item_2.discounted_subtotal(order_item_2.quantity))
+          expect(page).to have_content(374.92)
+        end
+      within "#item-#{@pencil.id}" do
+          expect(page).to have_content(300).twice
+        end
+      end
     end
   end
 end
