@@ -19,6 +19,32 @@ giraffe_shop = Merchant.create(name: "Brian's Giraffe Shop", address: '125 Doggo
 hippo_shop = Merchant.create(name: "Brian's Hippo Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
 penguin_shop = Merchant.create(name: "Brian's Penguin Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
 
+#discounts
+discount_1 = bike_shop.discounts.create(quantity: 20, percent_discount: 5)
+discount_2 = dog_shop.discounts.create(quantity: 20, percent_discount: 5)
+discount_3 = meg_shop.discounts.create(quantity: 20, percent_discount: 5)
+discount_4 = cat_shop.discounts.create(quantity: 20, percent_discount: 5)
+discount_5 = mouse_shop.discounts.create(quantity: 20, percent_discount: 5)
+discount_6 = giraffe_shop.discounts.create(quantity: 20, percent_discount: 5)
+discount_7 = hippo_shop.discounts.create(quantity: 20, percent_discount: 5)
+discount_8 = penguin_shop.discounts.create(quantity: 20, percent_discount: 5)
+discount_9 = bike_shop.discounts.create(quantity: 10, percent_discount: 2)
+discount_10 = dog_shop.discounts.create(quantity: 10, percent_discount: 2)
+discount_11 = meg_shop.discounts.create(quantity: 10, percent_discount: 2)
+discount_12 = cat_shop.discounts.create(quantity: 10, percent_discount: 2)
+discount_13 = mouse_shop.discounts.create(quantity: 10, percent_discount: 2)
+discount_14 = giraffe_shop.discounts.create(quantity: 10, percent_discount: 2)
+discount_15 = hippo_shop.discounts.create(quantity: 10, percent_discount: 2)
+discount_16 = penguin_shop.discounts.create(quantity: 10, percent_discount: 2)
+discount_17 = bike_shop.discounts.create(quantity: 5, percent_discount: 1)
+discount_18 = dog_shop.discounts.create(quantity: 5, percent_discount: 1)
+discount_19 = meg_shop.discounts.create(quantity: 5, percent_discount: 1)
+discount_20 = cat_shop.discounts.create(quantity: 5, percent_discount: 1)
+discount_21 = mouse_shop.discounts.create(quantity: 5, percent_discount: 1)
+discount_22 = giraffe_shop.discounts.create(quantity: 5, percent_discount: 1)
+discount_23 = hippo_shop.discounts.create(quantity: 5, percent_discount: 1)
+discount_24 = penguin_shop.discounts.create(quantity: 5, percent_discount: 1)
+
 #users
 jake = User.create!(name: 'Jake',
   address: '124 Main St',

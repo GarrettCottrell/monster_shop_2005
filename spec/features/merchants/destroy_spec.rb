@@ -88,5 +88,42 @@ RSpec.describe "As a admin" do
       visit "/merchants/#{brian.id}"
       expect(page).to have_link("Delete Merchant")
     end
+
+    it "If I delete a merchant with discounts, all those discounts are deleted
+    as well." do
+      mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
+
+      discount_1 = mike.discounts.create(quantity: 5, percent_discount: 10)
+      discount_2 = mike.discounts.create(quantity: 4, percent_discount: 9)
+      discount_3 = mike.discounts.create(quantity: 3, percent_discount: 8)
+      discount_4 = mike.discounts.create(quantity: 2, percent_discount: 7)
+
+
+      user = User.create(
+        name: 'JakeBob',
+        address: '124 Main St',
+        city: 'Denver',
+        state: 'Colorado',
+        zip: '80202',
+        email: 'JBob1234@hotmail.com',
+        password: 'heftybags',
+        password_confirmation: 'heftybags',
+        role: 2
+
+      )
+      # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+      visit "/login"
+
+      fill_in :email, with: "JBob1234@hotmail.com"
+      fill_in :password, with: "heftybags"
+      click_button "Login"
+
+      # expect(page).to_not have_link("Delete Merchant")
+
+
+      visit "/merchants/#{mike.id}"
+      expect(page).to have_link("Delete Merchant")
+      click_link "Delete Merchant"
+    end
   end
 end
