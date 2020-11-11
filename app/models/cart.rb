@@ -21,7 +21,7 @@ class Cart
 
   def items
     item_quantity = {}
-    @contents.each do |item_id,quantity|
+    @contents.each do |item_id, quantity|
       item_quantity[Item.find(item_id)] = quantity
     end
     item_quantity

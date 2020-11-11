@@ -116,7 +116,8 @@ describe "As a user" do
         )
         dog_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
         item = dog_shop.items.create!(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
-
+        discount_1 = dog_shop.discounts.create(quantity: 5, percent_discount: 10)
+        discount_2 = dog_shop.discounts.create(quantity: 4, percent_discount: 9)
         visit "/login"
 
         fill_in :email, with: "JBob1234@hotmail.com"
@@ -127,7 +128,13 @@ describe "As a user" do
         visit "/items/#{item.id}"
 
         click_on "Add To Cart"
-
+        visit "/cart"
+        within "#cart-item-#{item.id}" do
+        click_button "+"
+        click_button "+"
+        click_button "+"
+        click_button "+"
+        end
         visit '/orders/new'
 
         fill_in :name, with: user.name
@@ -141,6 +148,8 @@ describe "As a user" do
         new_order = Order.last
         item_order = ItemOrder.last
 
+        expect(ItemOrder.last.discounted_price).to eq(45)
+        expect(ItemOrder.last.discounted_unit_price).to eq(9)
         expect(current_path).to eq("/profile/orders")
         expect(new_order.status).to eq("Pending")
         expect(new_order.user).to eq(user)

@@ -65,7 +65,7 @@ describe Order, type: :model do
       order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17_033, user_id: user.id)
       item_order_1 = order_1.item_orders.create!(item: tire, price: tire.price, quantity: 2, merchant_id: meg.id)
 
-      order_1.return_items
+      order_1.return_items(order_1.id)
 
       expect(Item.find(tire.id).inventory).to eq(14)
     end
@@ -216,7 +216,7 @@ describe Order, type: :model do
       order_item_2 =  order_1.item_orders.create!(item: tire, price: tire.price, quantity: 2, status: 'Pending', merchant_id: bike_shop.id)
       order_item_3 = order_1.item_orders.create!(item: rack, price: rack.price, quantity: 2, status: 'Pending', merchant_id: print_shop.id)
 
-      order_1.cancel_order
+      order_1.cancel_order(order_1.id)
 
       expect(order_1.status).to eq("Cancelled")
       expect(order_1.item_orders.all? { |item_order| item_order.status == "Unfulfilled"}).to eq(true)

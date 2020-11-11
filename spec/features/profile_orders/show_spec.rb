@@ -271,7 +271,7 @@ RSpec.describe('Order Creation') do
         expect(Item.find(tire.id).inventory).to eq(13)
       end
 
-      it 'Final discounted unit prices appear on the orders show page. If no discount
+      it 'Final discounted unit prices and subtotals appear on the orders show page. If no discount
       is present, the original price should be reflected instead.' do
 
       print_shop = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
@@ -294,9 +294,9 @@ RSpec.describe('Order Creation') do
       @pencil = print_shop.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 300, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
       @tire = print_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 103, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
       order_1 = Order.create!(name: 'JakeBob', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80_218, user_id: regular_user.id, status: 'Pending')
-      order_item_1 = order_1.item_orders.create!(item: @paper, price: @paper.price, quantity: 5, status: 'Pending', merchant_id: print_shop.id)
-      order_item_2 =  order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 4, status: 'Pending', merchant_id: print_shop.id)
-      order_item_3 =  order_1.item_orders.create!(item: @pencil, price: @pencil.price, quantity: 1, status: 'Fulfilled', merchant_id: print_shop.id)
+      order_item_1 = order_1.item_orders.create!(item: @paper, price: @paper.price, quantity: 5, status: 'Pending', merchant_id: print_shop.id, discounted_price: 90, discounted_unit_price: 18)
+      order_item_2 =  order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 4, status: 'Pending', merchant_id: print_shop.id, discounted_price: 374.92, discounted_unit_price: 93.73)
+      order_item_3 =  order_1.item_orders.create!(item: @pencil, price: @pencil.price, quantity: 1, status: 'Fulfilled', merchant_id: print_shop.id, discounted_price: nil, discounted_unit_price: nil)
 
       visit '/login'
       fill_in :email, with: 'Bob1234@hotmail.com'
@@ -306,15 +306,11 @@ RSpec.describe('Order Creation') do
       visit "/profile/orders/#{order_1.id}"
 
       within "#item-#{@paper.id}" do
-          expect(page).to have_content(order_item_1.item.discounted_unit_price(order_item_1.item.order_item(order_1.id).quantity))
           expect(page).to have_content(18)
-          expect(page).to have_content(order_item_1.discounted_subtotal(order_item_1.quantity))
           expect(page).to have_content(90)
         end
       within "#item-#{@tire.id}" do
-          expect(page).to have_content(order_item_2.item.discounted_unit_price(order_item_2.item.order_item(order_1.id).quantity))
           expect(page).to have_content(93.73)
-          expect(page).to have_content(order_item_2.discounted_subtotal(order_item_2.quantity))
           expect(page).to have_content(374.92)
         end
       within "#item-#{@pencil.id}" do

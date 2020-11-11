@@ -9,7 +9,7 @@ class ProfileOrdersController < ApplicationController
 
   def cancel
     order = Order.find(params[:id])
-    order.cancel_order
+    order.cancel_order(order.id)
     flash[:notice] = 'Your order is now cancelled'
     redirect_to profile_orders_path
   end

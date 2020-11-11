@@ -61,10 +61,6 @@ class Item <ApplicationRecord
     merchant.find_discount_amount(quantity) / 100
   end
 
-  def discounted_price(quantity, order_id)
-    total_cost(order_id) - (total_cost(order_id) * item_discount(quantity))
-  end
-
   def discounted_unit_price(quantity)
     price - (price * item_discount(quantity))
   end

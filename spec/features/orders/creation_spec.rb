@@ -64,10 +64,6 @@ RSpec.describe("Order Creation") do
       new_order = Order.last
 
       expect(current_path).to eq("/profile/orders")
-
-    
     end
-
-
   end
 end

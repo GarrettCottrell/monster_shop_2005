@@ -15,8 +15,8 @@ class Order < ApplicationRecord
     items.count
   end
 
-  def return_items
-    item_orders.each do |item_order|
+  def return_items(order_id_variable)
+    item_orders_in_order(order_id_variable).each do |item_order|
       inventory = item_order.item.inventory
       inventory += item_order.quantity
       item_order.item.update!(inventory: inventory)
@@ -35,13 +35,21 @@ class Order < ApplicationRecord
     items.where('item_orders.merchant_id = ?', merchant_id)
   end
 
-  def cancel_order
+  def cancel_order(order_id_variable)
     update(status: 'Cancelled')
-    return_items
+    return_items(order_id_variable)
     item_orders.update(status: 'Unfulfilled')
   end
 
   def order_status
     update(status: 'Packaged') if item_orders.where(status: 'Pending') == []
+  end
+
+  def item_orders_in_order(order_id_variable)
+    item_orders.where('order_id =?', order_id_variable)
+  end
+
+  def discounted_grand_total
+    item_orders.sum('(discounted_unit_price + price) * quantity')
   end
 end
